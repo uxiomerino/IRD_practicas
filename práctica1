@@ -1,0 +1,6 @@
+git init
+git remote add origin git@github.com:uxiomerino/
+            ird-practicas.git
+git add .
+git commit
+git push -u origin master
