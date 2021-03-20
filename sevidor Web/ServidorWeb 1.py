@@ -40,7 +40,7 @@ def hilo(scliente):
         scliente.send(str("HTTP/1.1 404 Not Found" + "\r\n").encode('UTF-8'))
         scliente.send(str('Date: {}'.format(fecha)+ '\r\n').encode())
         scliente.send(str('Server: uxiom, '+ 'localhost'+ '\r\n\r\n').encode())
-        
+
     else:
         ficheiro = 'data'+ peticion[1]
         print('200 OK')
@@ -50,12 +50,21 @@ def hilo(scliente):
         scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode())
         scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode())
         scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode())
+        scliente.send(str('\n\n'))
+        
         if peticion[0]== 'GET':
             with open(ficheiro, 'rb') as f:
                 fContent = f.read()
                 scliente.send(fContent)
-        
-            
+                
+        elif peticion[0]== 'HEAD':
+            scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+            scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode())
+            scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode())
+            scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode())
+            scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode())
+            scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode())
+           
     scliente.close()
     
 def main():
