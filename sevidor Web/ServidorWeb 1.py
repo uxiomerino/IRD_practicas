@@ -32,41 +32,86 @@ def hilo(scliente):
     if len(peticion) !=3 or peticion[0] not in ['GET', 'HEAD']:
         print('400 Bad Request')
         scliente.send(str("HTTP/1.1 400 Bad Request" + "\r\n").encode('UTF-8'))
-        scliente.send(str('Date: {}'.format(fecha) + '\r\n').encode())
-        scliente.send(str('Server: uxiom, ' + 'localhost'+'\r\n\r\n').encode())
-    
+        scliente.send(str('Date: {}'.format(fecha) + '\r\n').encode('UTF-8'))
+        scliente.send(str('Server: uxiom, ' + 'localhost'+'\r\n').encode('UTF-8'))
     elif not os.path.exists('data'+ peticion[1]):
         print('404 Not Found')
         scliente.send(str("HTTP/1.1 404 Not Found" + "\r\n").encode('UTF-8'))
-        scliente.send(str('Date: {}'.format(fecha)+ '\r\n').encode())
-        scliente.send(str('Server: uxiom, '+ 'localhost'+ '\r\n\r\n').encode())
+        scliente.send(str('Date: {}'.format(fecha)+ '\r\n').encode('UTF-8'))
+        scliente.send(str('Server: uxiom, '+ 'localhost'+ '\r\n\r\n').encode('UTF-8'))
 
     else:
         ficheiro = 'data'+ peticion[1]
         print('200 OK')
-        URL=peticion[1]
+        URL='data'+peticion[1]
         if peticion[0]== 'GET':
             if URL.endswith('.txt') or URL.endswith('html'):
+                with open(ficheiro, 'UTF-8') as f:
+                    content = f.read()
+                    scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
+                    scliente.send(str(scliente.send(content))).encode('UTF-8')
+                    
+            elif URL.endswith('.gif') or URL.endswith('.jpeg') or URL.endswith('.jpg'):
                 with open(ficheiro, 'rb') as f:
                     content = f.read()
                     scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
-                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode())
-                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode())
-                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode())
-                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode())
-                    scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode())
-                    scliente.send(str('\n\n'))
-                    scliente.send(str(scliente.send(content)))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
+                    scliente.send(content).encode('UTF-8')
+                    
+            else:
+                with open(ficheiro, encoding='UTF-8') as f:
+                    content = f.read()
+                    scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
+                    scliente.send(str(scliente.send(content))).encode('UTF-8')
         elif peticion[0]== 'HEAD':
-          
             if URL.endswith('.txt') or URL.endswith('.html'):
-                scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
-                scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode())
-                scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode())
-                scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode())
-                scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode())
-                scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode())
-           
+                with open(ficheiro, encoding='UTF-8') as f:
+                    content = f.read
+                    scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
+            elif URL.endswith('.jpg') or URL.endswith('.jpeg') or URL.endswith('.gif'):
+               with open(ficheiro, 'rb') as f:
+                    content = f.read()
+                    scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
+                    scliente.send(content).encode('UTF-8')
+            else:
+                with open(ficheiro, encoding='UTF-8') as f:
+                    content = f.read
+                    scliente.send(str("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8'))
+                    scliente.send(str('Date: {}'.format(fecha)+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8'))
+                    scliente.send(str('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\r\n\r\n').encode('UTF-8'))
+                    scliente.send(str('\n\n')).encode('UTF-8')
     scliente.close()
     
 def main():
