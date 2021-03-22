@@ -31,15 +31,15 @@ def hilo(scliente):
         fecha=str(datetime.date.today())
         
         if len(peticion) !=3 or peticion[0] not in ['GET', 'HEAD']:
-            linea_error=("HTTP/1.1 400 Bad Request" + "\r\n").encode('UTF-8')
-            linea_fecha=('Date: {}'.format(fecha) + '\r\n').encode('UTF-8')
-            linea_servidor=('Server: uxiom, ' + 'localhost'+'\r\n').encode('UTF-8')
-            scliente.send(linea_error + linea_fecha + linea_servidor)
+            linea_error=("HTTP/1.1 400 Bad Request" + "\n")
+            linea_fecha=('Date: {}'.format(fecha) + '\n')
+            linea_servidor=('Server: uxiom, ' + 'localhost'+'\n')
+            scliente.send((linea_error + linea_fecha + linea_servidor).encode('UTF-8'))
         elif os.path.exists('data'+ peticion[1]) ==False:
-            linea_error=("HTTP/1.1 404 Not Found" + "\r\n").encode('UTF-8')
-            linea_fecha=('Date: {}'.format(fecha)+ '\r\n').encode('UTF-8')
-            linea_servidor=('Server: uxiom, '+ 'localhost'+ '\r\n\r\n').encode('UTF-8')
-            scliente.send(linea_error + linea_fecha + linea_servidor)
+            linea_error=("HTTP/1.1 404 Not Found" + "\n")
+            linea_fecha=('Date: {}'.format(fecha)+ '\n')
+            linea_servidor=('Server: uxiom, '+ 'localhost'+ '\n')
+            scliente.send((linea_error + linea_fecha + linea_servidor).encode('UTF-8'))
         else:
             ficheiro = 'data'+ peticion[1]
             URL='data'+peticion[1]
@@ -47,71 +47,71 @@ def hilo(scliente):
                 if URL.endswith('.txt') or URL.endswith('html'):
                     with open(ficheiro, 'r') as f:
                         content = f.read()
-                        linea_error=("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\r\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n').encode('UTF-8')
-                        scliente.send(linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
                         
                 elif URL.endswith('.gif') or URL.endswith('.jpeg') or URL.endswith('.jpg'):
                     with open(ficheiro, 'rb') as f:
                         content = f.read()
-                        linea_error=("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\r\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n').encode('UTF-8')
-                        scliente.send(linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
                         
                 else:
                     with open(ficheiro, 'r') as f:
                         content = f.read()
-                        linea_error=("HTTP/1.1 200 OK"+ "\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n').encode('UTF-8')
-                        scliente.send(linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
+                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
             elif peticion[0]== 'HEAD':
                 if URL.endswith('.txt') or URL.endswith('.html'):
                     with open(ficheiro, 'r') as f:
                         content = f.read
-                        linea_error=("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\r\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n').encode('UTF-8')
-                        scliente.send(linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
+                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
                 elif URL.endswith('.jpg') or URL.endswith('.jpeg') or URL.endswith('.gif'):
                    with open(ficheiro, 'rb') as f:
                         content = f.read()
-                        linea_error=("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\r\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+ '\n').encode('UTF-8')
-                        scliente.send(linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+ '\n')
+                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
                 else:
                     with open(ficheiro, 'r') as f:
                         content = f.read
-                        linea_error=("HTTP/1.1 200 OK"+ "\r\n").encode('UTF-8')
-                        linea_fecha=('Date: {}'.format(fecha)+'\r\n').encode('UTF-8')
-                        linea_servidor=('Server: uxiom, '+'localhost'+'\r\n').encode('UTF-8')
-                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\r\n').encode('UTF-8')
-                        linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n').encode('UTF-8')
-                        scliente.send(linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion)
+                        linea_error=("HTTP/1.1 200 OK"+ "\n")
+                        linea_fecha=('Date: {}'.format(fecha)+'\n')
+                        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+                        linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
+                        linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
+                        linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
+                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
     except:
-        linea_error = ("HTTP/1.1 400 Bad Request" + "\n").encode('UTF-8')
-        linea_fecha = ('Date: {}'.format(fecha)+'\n').encode('UTF-8')
-        linea_servidor=('Server: uxiom, '+'localhost'+'\n').encode('UTF-8')
-        scliente.send=(linea_error + linea_fecha + linea_servidor)
+        linea_error = ("HTTP/1.1 400 Bad Request" + "\n")
+        linea_fecha = ('Date: {}'.format(fecha)+'\n')
+        linea_servidor=('Server: uxiom, '+'localhost'+'\n')
+        scliente.send=((linea_error + linea_fecha + linea_servidor).encode('UTF-8'))
     finally:
         scliente.close()
     
