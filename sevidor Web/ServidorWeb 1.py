@@ -53,7 +53,7 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
-                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion +'\n'+content).encode('UTF-8'))
                         
                 elif URL.endswith('.gif') or URL.endswith('.jpeg') or URL.endswith('.jpg'):
                     with open(ficheiro, 'rb') as f:
@@ -64,7 +64,8 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
-                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion +'\n').encode('UTF-8'))
+                        scliente.send(content)
                         
                 else:
                     with open(ficheiro, 'r') as f:
@@ -75,7 +76,8 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
-                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion + content).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion +'\n'+ content).encode('UTF-8'))
+                        
             elif peticion[0]== 'HEAD':
                 if URL.endswith('.txt') or URL.endswith('.html'):
                     with open(ficheiro, 'r') as f:
@@ -86,7 +88,7 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
-                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
                 elif URL.endswith('.jpg') or URL.endswith('.jpeg') or URL.endswith('.gif'):
                    with open(ficheiro, 'rb') as f:
                         content = f.read()
@@ -96,7 +98,7 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ (datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+ '\n')
-                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
                 else:
                     with open(ficheiro, 'r') as f:
                         content = f.read
@@ -106,7 +108,7 @@ def hilo(scliente):
                         linea_longitud=('Content-Length: '+str(os.path.getsize(ficheiro))+ '\n')
                         linea_tipo=('Content-Type: '+ str(contenttype(ficheiro))+ '\n')
                         linea_modificacion=('Last-Modified: '+ str(datetime.datetime.fromtimestamp(os.path.getmtime(ficheiro)).strftime('%a, %d %b %Y %H:%M:%S %Z'))+'\n')
-                        scliente.send((linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
+                        scliente.send((linea_error + linea_fecha + linea_servidor + linea_longitud + linea_tipo + linea_modificacion).encode('UTF-8'))
     except:
         linea_error = ("HTTP/1.1 400 Bad Request" + "\n")
         linea_fecha = ('Date: {}'.format(fecha)+'\n')
