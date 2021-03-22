@@ -33,13 +33,13 @@ def hilo(scliente):
         if len(peticion) !=3 or peticion[0] not in ['GET', 'HEAD']:
             linea_error=("HTTP/1.1 400 Bad Request" + "\n")
             linea_fecha=('Date: {}'.format(fecha) + '\n')
-            linea_servidor=('Server: uxiom, ' + 'localhost'+'\n')
-            scliente.send((linea_error + linea_fecha + linea_servidor).encode('UTF-8'))
+            linea_servidor=('Server: uxiom, ' + 'localhost')
+            scliente.send((linea_error + linea_fecha + linea_servidor+'\n\n').encode('UTF-8'))
         elif os.path.exists('data'+ peticion[1]) ==False:
             linea_error=("HTTP/1.1 404 Not Found" + "\n")
             linea_fecha=('Date: {}'.format(fecha)+ '\n')
-            linea_servidor=('Server: uxiom, '+ 'localhost'+ '\n')
-            scliente.send((linea_error + linea_fecha + linea_servidor).encode('UTF-8'))
+            linea_servidor=('Server: uxiom, '+ 'localhost')
+            scliente.send((linea_error + linea_fecha + linea_servidor+'\n\n').encode('UTF-8'))
         else:
             ficheiro = 'data'+ peticion[1]
             URL='data'+peticion[1]
