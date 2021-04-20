@@ -7,7 +7,7 @@ Created on Tue Apr  6 09:22:07 2021
 import requests
 from bs4 import BeautifulSoup
 import gmg
-from gmg import plotMap
+from gmg import gmg
 
 
 
@@ -35,7 +35,7 @@ for elemento in parser.find_all("tr"):
                 
 puntos=[]
 t=0
-while t<15: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle while aumentando el 15 por el número deseado
+while t<10: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle while aumentando el 15 por el número deseado
     
     for x in range(len(listacódigos)):
         x=0
@@ -116,4 +116,4 @@ while t<15: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle 
     
     t+=1
     
-plotMap(points = puntos)
+gmg.plotMap(points = puntos)
