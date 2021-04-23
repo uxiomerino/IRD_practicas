@@ -6,7 +6,6 @@ Created on Tue Apr  6 09:22:07 2021
 """
 import requests
 from bs4 import BeautifulSoup
-import gmg
 from gmg import gmg
 
 
@@ -35,7 +34,7 @@ for elemento in parser.find_all("tr"):
                 
 puntos=[]
 t=0
-while t<10: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle while aumentando el 15 por el número deseado
+while t<15: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle while aumentando el 15 por el número deseado
     
     for x in range(len(listacódigos)):
         x=0
@@ -84,7 +83,7 @@ while t<10: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle 
     
     parseo= BeautifulSoup(bcoordenadas1, 'lxml')
     
-    listacoords=[]
+    listaimportancia=[]
     listalat=[]
     listalon=[]
    
@@ -92,12 +91,12 @@ while t<10: #Para mostrar más de 15 ayuntamientos basta con cambiar este bucle 
         important= elemento['importance']
         lat= elemento['lat']
         lon=elemento['lon']
-        listacoords.append(important)
+        listaimportancia.append(important)
         listalat.append(lat)
         listalon.append(lon)
      
-    for i in range(len(listacoords)):
-        coordenadas=listacoords[0]
+    for i in range(len(listaimportancia)):
+        coordenadas=listaimportancia[0]
         
     for i in range(len(listalat)):
         latitud=listalat[0]
